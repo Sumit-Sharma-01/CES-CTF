@@ -6,17 +6,22 @@ function App() {
   const [message, setMessage] = useState("");
 
   const login = async () => {
-    const res = await fetch(`${BACKEND}/login`, {
-      credentials: "include"
-    });
-    const text = await res.text();
-    setMessage(text);
+    const res = await fetch(`${BACKEND}/login`);
+    const data = await res.json();
+
+    localStorage.setItem("token", data.token);
+    setMessage(data.message);
   };
 
   const admin = async () => {
+    const token = localStorage.getItem("token");
+
     const res = await fetch(`${BACKEND}/admin`, {
-      credentials: "include"
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
     });
+
     const text = await res.text();
     setMessage(text);
   };

@@ -19,17 +19,21 @@ app.get("/login", (req, res) => {
     SECRET
   );
 
-  res.cookie("token", token, {
-    httpOnly: false,
-    sameSite: "lax"
+  res.json({
+    message: "Logged in as user",
+    token: token
   });
-
-  res.send("Logged in as user");
 });
 
 
 app.get("/admin", (req, res) => {
-  const token = req.cookies.token;
+  const authHeader = req.headers.authorization;
+
+if (!authHeader) {
+  return res.status(401).send("No token found");
+}
+
+const token = authHeader.split(" ")[1];
 
   if (!token) {
     return res.status(401).send("No token found");
