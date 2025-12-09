@@ -1,10 +1,12 @@
 import { useState } from "react";
 
+const BACKEND = "https://ces-ctf.onrender.com"; // your Render backend
+
 function App() {
   const [message, setMessage] = useState("");
 
   const login = async () => {
-    const res = await fetch("http://localhost:3000/login", {
+    const res = await fetch(`${BACKEND}/login`, {
       credentials: "include"
     });
     const text = await res.text();
@@ -12,7 +14,7 @@ function App() {
   };
 
   const admin = async () => {
-    const res = await fetch("http://localhost:3000/admin", {
+    const res = await fetch(`${BACKEND}/admin`, {
       credentials: "include"
     });
     const text = await res.text();
